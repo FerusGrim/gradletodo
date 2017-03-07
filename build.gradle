@@ -1,0 +1,66 @@
+plugins {
+    id 'com.gradle.plugin-publish' version '0.9.7'
+}
+
+group 'com.ferusgrim'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('.repo'))
+        }
+    }
+}
+
+task setupPluginUpload << {
+
+    def key = System.env.gradlePublishKey
+    def secret = System.env.gradlePublishSecret
+
+    if (!key) {
+        throw new RuntimeException("gradlePublishKey isn't a defined environment variable.")
+    }
+
+    if (!secret) {
+        throw new RuntimeException("gradlePublishSecret isn't a defined environment variable.")
+    }
+
+    System.properties.setProperty("gradle.publish.key", key)
+    System.properties.setProperty("gradle.publish.secret", secret)
+}
+
+tasks.publishPlugins.dependsOn tasks.setupPluginUpload
+
+pluginBundle {
+    website = 'http://www.gradle.org/'
+    vcsUrl = 'https://github.com/ferusgrim/gradletodo/'
+    description = "Gradle plugin simply designed to show comments in your source marked as TODO."
+    tags = ["helper", "todo", "gradle"]
+
+    plugins {
+        gradletodo {
+            id = 'com.ferusgrim.gradletodo'
+            displayName = 'GradleTodo'
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}

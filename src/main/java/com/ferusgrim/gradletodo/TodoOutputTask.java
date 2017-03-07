@@ -19,6 +19,9 @@
  */
 package com.ferusgrim.gradletodo;
 
+import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.DirectoryTree;
 import org.gradle.api.file.FileTree;
@@ -26,9 +29,6 @@ import org.gradle.api.file.SourceDirectorySet;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.util.PatternSet;
-import org.gradle.internal.impldep.com.beust.jcommander.internal.Maps;
-import org.gradle.internal.impldep.com.google.common.base.Charsets;
-import org.gradle.internal.impldep.com.google.common.io.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;

@@ -64,10 +64,10 @@ public class TodoOutputTask extends DefaultTask {
 
                 if (!matches.isEmpty()) {
                     System.out.println();
-                    LOGGER.warn("{} TODOs found: {}", matches.size(), file.getName());
+                    LOGGER.warn("{} TODO{} found in `{}`", matches.size(), matches.size() == 1 ? "" : "s", file.getName());
 
                     for (final Map.Entry<Integer, String> match : matches.entrySet()) {
-                        LOGGER.warn("Line {}: {}", match.getKey(), match.getValue());
+                        LOGGER.warn("L{}: {}", match.getKey(), match.getValue());
                     }
                 }
             }

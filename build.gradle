@@ -1,4 +1,9 @@
 plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'maven'
+    id 'com.github.hierynomus.license' version '0.12.1'
     id 'com.gradle.plugin-publish' version '0.9.7'
 }
 
@@ -15,11 +20,26 @@ private static String getGitHash() {
 group 'com.ferusgrim'
 version '1.0'
 
-apply plugin: 'java'
-apply plugin: 'maven'
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+configure([compileJava]) {
+    options.compilerArgs += ['-Xlint:all', '-Xlint:-path']
+    options.deprecation = true
+    options.encoding = 'UTF-8'
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+    options.charSet = 'UTF-8'
+    options.jFlags('-Xms256m', '-Xmx512m')
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
 
 repositories {
     mavenCentral()
@@ -27,12 +47,22 @@ repositories {
 
 dependencies {
     compile gradleApi()
+    compile 'com.google.guava:guava:18.0'
+}
+
+license {
+    header rootProject.file('HEADER')
+    include '**/*.java'
+    ignoreFailures false
+    strictCheck true
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
 }
 
 jar {
     manifest {
         attributes(
-                'Implementation-Class': 'com.ferusgrim.gradletodo.GradleTodo',
                 'Implementation-Title': project.name,
                 'Implementation-Version': version,
                 'Build-Version': gitHash
@@ -68,10 +98,10 @@ task setupPluginUpload << {
 tasks.publishPlugins.dependsOn tasks.setupPluginUpload
 
 pluginBundle {
-    website = 'http://www.gradle.org/'
+    website = 'http://www.ferusgrim.com'
     vcsUrl = 'https://github.com/ferusgrim/gradletodo/'
     description = "Gradle plugin simply designed to show comments in your source marked as TODO."
-    tags = ["helper", "todo", "gradle"]
+    tags = ["helper", "todo"]
 
     plugins {
         gradletodo {

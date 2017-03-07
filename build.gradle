@@ -2,6 +2,16 @@ plugins {
     id 'com.gradle.plugin-publish' version '0.9.7'
 }
 
+ext {
+    gitHash = getGitHash()
+}
+
+private static String getGitHash() {
+    def process = 'git rev-parse --short HEAD'.execute()
+    process.waitFor()
+    return process.exitValue() ? 'unknown' : process.text.trim()
+}
+
 group 'com.ferusgrim'
 version '1.0'
 
@@ -17,6 +27,17 @@ repositories {
 
 dependencies {
     compile gradleApi()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Implementation-Class': 'com.ferusgrim.gradletodo.GradleTodo',
+                'Implementation-Title': project.name,
+                'Implementation-Version': version,
+                'Build-Version': gitHash
+        )
+    }
 }
 
 uploadArchives {

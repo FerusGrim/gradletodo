@@ -4,7 +4,8 @@ jdk:
   - oraclejdk8
 
 install: true
-script: ./gradlew build publishPlugin
+script: ./gradlew build
+after_success: ./gradlew publishPlugin # Because not every push is an update to the plugin.
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock

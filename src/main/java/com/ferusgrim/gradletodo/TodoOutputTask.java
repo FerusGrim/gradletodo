@@ -67,7 +67,7 @@ public class TodoOutputTask extends DefaultTask {
                     LOGGER.warn("{} TODOs found: {}", matches.size(), file.getName());
 
                     for (final Map.Entry<Integer, String> match : matches.entrySet()) {
-                        LOGGER.info("Line {}: {}", match.getKey(), match.getValue());
+                        LOGGER.warn("Line {}: {}", match.getKey(), match.getValue());
                     }
                 }
             }

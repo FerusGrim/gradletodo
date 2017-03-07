@@ -23,12 +23,16 @@ import com.google.common.collect.ImmutableMap;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.plugins.JavaPluginConvention;
+import org.gradle.api.tasks.SourceSet;
 
 public class GradleTodo implements Plugin<Project> {
 
     @Override
     public void apply(final Project project) {
-        this.makeTask(project);
+        final TodoOutputTask task = this.makeTask(project);
+        task.setInput(((JavaPluginConvention) project.getConvention().getPlugins().get("java"))
+                .getSourceSets().getByName(SourceSet.MAIN_SOURCE_SET_NAME).getJava());
     }
 
     @SuppressWarnings("unchecked")

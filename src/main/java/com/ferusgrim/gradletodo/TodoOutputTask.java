@@ -89,4 +89,8 @@ public class TodoOutputTask extends DefaultTask {
 
         return matches;
     }
+
+    void setInput(final SourceDirectorySet input) {
+        this.input = input;
+    }
 }

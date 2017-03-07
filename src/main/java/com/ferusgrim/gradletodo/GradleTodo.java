@@ -19,10 +19,10 @@
  */
 package com.ferusgrim.gradletodo;
 
+import com.google.common.collect.ImmutableMap;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
-import org.gradle.internal.impldep.com.google.common.collect.ImmutableMap;
 
 public class GradleTodo implements Plugin<Project> {
 
